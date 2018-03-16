@@ -2,12 +2,9 @@
 
 -export([accumulate/2, test_version/0]).
 
-accumulate(Fn, Ls) ->
-    accumulate(Fn, Ls, []).
-
-accumulate(Fn, [H|T], Acc) ->
-    accumulate(Fn, T, [Fn(H)|Acc]);
-accumulate(_, [], Acc) ->
-    lists:reverse(Acc).
+accumulate(_, []) ->
+    [];
+accumulate(Fn, [H|T]) ->
+    [Fn(H)|accumulate(Fn, T)].
 
 test_version() -> 1.
