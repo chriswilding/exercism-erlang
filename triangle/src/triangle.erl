@@ -6,9 +6,13 @@ kind(A, B, C) when A =< 0; B =< 0; C =< 0 ->
     {error, "all side lengths must be positive"};
 kind(A, B, C) when not (A + B > C andalso B + C > A andalso C + A > B) ->
     {error, "side lengths violate triangle inequality"};
-kind(A, B, C) when A =:= B, B =:= C ->
+kind(S, S, S) ->
     equilateral;
-kind(A, B, C) when A =:= B; B =:= C; C =:= A ->
+kind(S, S, _) ->
+    isosceles;
+kind(_, S, S) ->
+    isosceles;
+kind(S, _, S) ->
     isosceles;
 kind(_, _, _) ->
     scalene.
