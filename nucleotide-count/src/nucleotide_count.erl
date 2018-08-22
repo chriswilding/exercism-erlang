@@ -10,11 +10,17 @@ count(_, _) ->
     erlang:error("Invalid nucleotide").
 
 nucleotide_counts(Dna) ->
-    [
-     {"A", count(Dna, "A")},
-     {"T", count(Dna, "T")},
-     {"C", count(Dna, "C")},
-     {"G", count(Dna, "G")}
-    ].
+    {A, T, C, G} =
+    lists:foldl(
+      fun
+          ($A, {AccA, AccT, AccC, AccG}) -> {AccA+1, AccT, AccC, AccG};
+          ($T, {AccA, AccT, AccC, AccG}) -> {AccA, AccT+1, AccC, AccG};
+          ($C, {AccA, AccT, AccC, AccG}) -> {AccA, AccT, AccC+1, AccG};
+          ($G, {AccA, AccT, AccC, AccG}) -> {AccA, AccT, AccC, AccG+1}
+      end,
+      {0, 0, 0, 0},
+      Dna
+     ),
+    [{"A", A}, {"T", T}, {"C", C}, {"G", G}].
 
 test_version() -> 1.
