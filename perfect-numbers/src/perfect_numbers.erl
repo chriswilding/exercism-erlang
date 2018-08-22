@@ -13,16 +13,16 @@ classify(N) when N > 2 ->
 classify(_) ->
     {error, "Classification is only possible for natural numbers."}.
 
-classify(N, Sum) when N =:= Sum ->
+classify(N, N) ->
     perfect;
 classify(N, Sum) when N < Sum ->
     abundant;
-classify(N, Sum) when N > Sum ->
+classify(_, _) ->
     deficient.
 
 factors(N) ->
     Limit = N div 2 + 1,
     Seq = lists:seq(1, Limit),
-    lists:filter(fun(S) -> N rem S =:= 0 end, Seq).
+    [S || S <- Seq, N rem S =:= 0].
 
 test_version() -> 1.
