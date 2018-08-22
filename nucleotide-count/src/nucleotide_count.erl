@@ -4,13 +4,10 @@
 
 -define(VALID_NUCLEOTIDES, ["A", "T", "C", "G"]).
 
-count(Dna, N) ->
-    case lists:member(N, ?VALID_NUCLEOTIDES) of
-        true ->
-            length(lists:filter(fun(Base) -> [Base] == N end, Dna));
-        false ->
-            erlang:error("Invalid nucleotide")
-    end.
+count(Dna, N) when N =:= "A"; N =:= "T"; N =:= "C"; N =:= "G" ->
+    length(lists:filter(fun(Base) -> [Base] == N end, Dna));
+count(_, _) ->
+    erlang:error("Invalid nucleotide").
 
 nucleotide_counts(Dna) ->
     [
