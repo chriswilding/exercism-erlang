@@ -10,7 +10,7 @@ is_armstrong_number(Number) ->
 
 digits(Number, NOfDigits) ->
     Seq = lists:seq(1, NOfDigits),
-    lists:map(fun(N) -> nth_digit(Number, N) end, Seq).
+    [nth_digit(Number, N) || N <-  Seq].
 
 nth_digit(Number, N) ->
     Dividend = Number rem trunc(math:pow(10, N)),
