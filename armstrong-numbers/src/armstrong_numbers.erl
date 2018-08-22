@@ -3,9 +3,9 @@
 -export([is_armstrong_number/1, test_version/0]).
 
 is_armstrong_number(Number) ->
-    NOfDigits = trunc(math:floor(math:log10(Number) + 1)),
+    NOfDigits = trunc(math:log10(Number) + 1),
     Digits = digits(Number, NOfDigits),
-	Result = lists:map(fun(D) -> trunc(math:pow(D, NOfDigits)) end, Digits),
+	Result = [trunc(math:pow(D, NOfDigits)) || D <- Digits],
     lists:sum(Result) =:= Number.
 
 digits(Number, NOfDigits) ->
