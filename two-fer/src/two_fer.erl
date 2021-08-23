@@ -8,4 +8,5 @@ two_fer() ->
 two_fer(Name) ->
     "One for " ++ Name ++ ", one for me.".
 
-test_version() -> 1.
+test_version() ->
+    1.
