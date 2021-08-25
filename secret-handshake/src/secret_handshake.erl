@@ -2,15 +2,28 @@
 
 -export([commands/1]).
 
-commands(Number) when Number band 2#10000 =:= 2#10000 ->
-    commands(Number, [2#1000, 2#0100, 2#0010, 2#0001]);
+-define(ACTIONS, #{
+    1 => "wink",
+    2 => "double blink",
+    4 => "close your eyes",
+    8 => "jump"
+}).
+
+-define(REVERSE, 16).
+
 commands(Number) ->
-    commands(Number, [2#0001, 2#0010, 2#0100, 2#1000]).
+    Keys = maps:keys(?ACTIONS),
 
-commands(Number, Flags) ->
-    [action(X) || X <- Flags, Number band X =:= X].
+    Actions = lists:foldl(fun(Flag, Actions) ->
+        if (Flag band Number) > 0 ->
+            [maps:get(Flag, ?ACTIONS)|Actions];
+        true ->
+            Actions
+        end
+    end, [], Keys),
 
-action(2#0001) -> "wink";
-action(2#0010) -> "double blink";
-action(2#0100) -> "close your eyes";
-action(2#1000) -> "jump".
+    if (?REVERSE band Number) > 0 ->
+        Actions;
+    true ->
+        lists:reverse(Actions)
+    end.
